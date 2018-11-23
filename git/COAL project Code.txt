@@ -1,0 +1,187 @@
+#include <SoftwareSerial.h>
+ 
+//#define M1A 6
+//#define M1B 5
+//
+//#define M2A 10
+//#define M2B 9
+ 
+ 
+//L293D
+//Motor A
+const int motorPin1  = 6;  // Pin 14 of L293
+const int motorPin2  = 7;  // Pin 10 of L293
+int speedPinA = 5;
+//Motor B
+const int motorPin3  = 8; // Pin  7 of L293
+const int motorPin4  = 9;  // Pin  2 of L293
+int speedPinB = 10;
+SoftwareSerial BT(0,1);
+ 
+void fw();
+void bw();
+void left();
+void right();
+void stop();
+ 
+void setup() {
+  // put your setup code here, to run once:
+  TCCR1B = (TCCR1B & 0b11111000) | 0x04;
+  BT.begin(9600);
+  Serial.begin(9600);
+    pinMode(motorPin1, OUTPUT);
+    pinMode(motorPin2, OUTPUT);
+    pinMode(speedPinA, OUTPUT);
+    pinMode(motorPin3, OUTPUT);
+    pinMode(motorPin4, OUTPUT);
+    pinMode(speedPinB, OUTPUT);
+   
+}
+ 
+void loop() {
+  // put your main code here, to run repeatedly:
+  if(BT.available()){
+    char input = BT.read();
+    Serial.println(input);
+    switch (input){
+      case '1':
+        fw();
+        break;
+      case '2':
+        bw();
+        break;
+      case '3':
+        left();
+        break;
+      case '4':
+        right();
+        break;
+      case '0':
+        stop();
+        break;     
+    }
+  }
+}
+ 
+void bw(){
+//  digitalWrite(M1A,0);
+//  analogWrite(M1B,150);
+//
+//  digitalWrite(M2A,0);
+//  analogWrite(M2B,150);
+analogWrite(speedPinA, 255);//Sets speed variable via PWM
+    analogWrite(speedPinB, 255);
+  digitalWrite(motorPin1, HIGH);
+  digitalWrite(motorPin2, LOW);
+  //delay(5000);
+ 
+  //
+  //    analogWrite(speedPinA, 0);//Sets speed variable via PWM
+  //digitalWrite(motorPin1, LOW);
+  //digitalWrite(motorPin2, HIGH);
+  //////delay(5000);
+ 
+  
+  digitalWrite(motorPin3, HIGH);
+  digitalWrite(motorPin4, LOW);
+  //delay(5000);
+ 
+}
+ 
+ 
+void fw(){
+//  digitalWrite(M1A,1);
+//  analogWrite(M1B,(255 - 100));
+//
+//  digitalWrite(M2A,1);
+//  analogWrite(M2B,(255 - 100));
+analogWrite(speedPinA, 255);//Sets speed variable via PWM
+    analogWrite(speedPinB, 255);
+digitalWrite(motorPin1, LOW);
+digitalWrite(motorPin2, HIGH);
+//delay(5000);
+ 
+//
+//    analogWrite(speedPinA, 0);//Sets speed variable via PWM
+//digitalWrite(motorPin1, LOW);
+//digitalWrite(motorPin2, HIGH);
+//////delay(5000);
+ 
+ 
+digitalWrite(motorPin3, LOW);
+digitalWrite(motorPin4, HIGH);
+//delay(5000);
+ 
+ 
+}
+ 
+void left(){
+//  digitalWrite(M1A,0);
+//  analogWrite(M1B,100);
+//  ;
+//
+//  digitalWrite(M2A,1);
+//  analogWrite(M2B,(255 - 75));
+ 
+  analogWrite(speedPinA, 255);//Sets speed variable via PWM
+      analogWrite(speedPinB, 255);
+  digitalWrite(motorPin1, LOW);
+  digitalWrite(motorPin2, HIGH);
+  //delay(5000);
+ 
+  //
+  //    analogWrite(speedPinA, 0);//Sets speed variable via PWM
+  //digitalWrite(motorPin1, LOW);
+  //digitalWrite(motorPin2, HIGH);
+  //////delay(5000);
+ 
+  
+//  digitalWrite(motorPin3, LOW);
+//  digitalWrite(motorPin4, HIGH);
+//  //delay(5000);
+ 
+ 
+}
+//
+void right(){
+//  digitalWrite(M2A,0);
+//  analogWrite(M2B,100);
+// 
+//  digitalWrite(M1A,1);
+//  analogWrite(M1B,(255 - 150));
+ 
+//  digitalWrite(M2A,0);
+//  analogWrite(M2B,100);
+  analogWrite(speedPinA, 255);//Sets speed variable via PWM
+      analogWrite(speedPinB, 255);
+//  digitalWrite(motorPin1, LOW);
+//  digitalWrite(motorPin2, HIGH);
+  //delay(5000);
+ 
+  //
+  //    analogWrite(speedPinA, 0);//Sets speed variable via PWM
+  //digitalWrite(motorPin1, LOW);
+  //digitalWrite(motorPin2, HIGH);
+  //////delay(5000);
+ 
+  
+  digitalWrite(motorPin3, LOW);
+  digitalWrite(motorPin4, HIGH);
+  //delay(5000);
+ 
+ 
+}
+ 
+void stop(){
+//  digitalWrite(M1A,0);
+//  analogWrite(M1B,0);
+//
+//  digitalWrite(M2A,0);
+//  analogWrite(M2B,0);
+ 
+  digitalWrite(motorPin1,0);
+  analogWrite(motorPin2,0);
+ 
+  digitalWrite(motorPin3,0);
+  analogWrite(motorPin4,0);
+}
